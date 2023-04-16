@@ -1,25 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Title from '../src/components/title'
+import './App.css'
 
-function App() {
+
+
+const App = () => {
+  let [showItems, setShowItems] = useState(true)
+  let [events, setEvents] = useState([
+    {title: "akhror's birthday party", id: 1},
+    {title: "doniyor's live stream", id: 2},
+    {title: "match: manchester united vs barcelona", id: 3}
+  ])
+
+
+  // delete item
+  let deleteItem =  (id)=>{
+    let filArr = events.filter((item)=>{
+      return item.id !== id
+    })
+    setEvents(filArr)
+  }
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+    <Title />
+       {showItems && <button onClick={()=>setShowItems(false)}>Hide Items</button>}
+       {!showItems && <button onClick={()=>setShowItems(true)}>Show Items</button>}
+       <hr />
+       <br />
+
+     {showItems && <div>
+     {events.length === 0 && <h2>Not conet Yet :(</h2>}
+      {showItems && events.map((item)=>{
+        return(
+          <div key={item.id}>
+            <h1>{item.title}</h1>
+            <button onClick={()=>deleteItem(item.id)}>Delete button</button>
+          </div>
+        )
+       })}
+     </div>}
     </div>
   );
 }
 
-export default App;
+export default App
